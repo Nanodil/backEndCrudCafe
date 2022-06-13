@@ -1,11 +1,29 @@
 import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
 
+
+//instanciar express
 const app = express();
+//crear un puerto
+app.set('port', process.env.PORT || 4000);
+// const port = 4000;
 
-const port = 4000;
-
-app.listen(port, ()=>{
-    console.log("Estoy en el puerto" +port);
+app.listen(app.get('port'), ()=>{
+    console.log("Estoy en el puerto" + app.get('port'));
 })
 
-console.log('hola mundo');
+//configuraciones extras midlewares
+app.use(morgan('dev'));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+//crear rutas
+app.get('/', (req, res)=>{
+    res.send('hola esto es una prueba desde el bakend')
+})
+
+app.delete('/borrarproducto', (req, res)=>{
+    res.send('alguien quiere borrar')
+})
